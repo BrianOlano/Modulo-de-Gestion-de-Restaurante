@@ -1,0 +1,102 @@
+create database restaurantes;
+
+CREATE TABLE Detalle_Menu
+(
+IdDetalle_Menu int NOT NULL AUTO_INCREMENT,
+Plato varchar(100) NOT NULL,
+Precio int NOT NULL,
+PRIMARY KEY (IdDetalle_Menu)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Menu
+(
+IdMenu int NOT NULL AUTO_INCREMENT,
+Fecha date NOT NULL,
+IdDetalle_Menu int NOT NULL,
+PRIMARY KEY (IdMenu),
+FOREIGN KEY (IdDetalle_Menu) REFERENCES Detalle_Menu(IdDetalle_Menu)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Categoria 
+(
+IdCategoria int NOT NULL AUTO_INCREMENT,
+Descripcion varchar(100) NOT NULL,	
+PRIMARY KEY (IdCategoria)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Horario
+(
+IdHorario int NOT NULL AUTO_INCREMENT,
+Descripcion varchar(30) NOT NULL,
+Hora_Inicio time NOT NULL,
+Hora_Fin time NOT NULL,
+PRIMARY KEY (IdHorario)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Restaurante
+
+(
+IdRestaurante int NOT NULL AUTO_INCREMENT,
+IdCategoria int NOT NULL,
+IdMenu int NOT NULL,
+Aforo int NOT NULL,
+Direccion varchar(100) NOT NULL,
+Telefono varchar(20) NOT NULL,
+IdHorario int NOT NULL,
+Rese�a varchar(600) NOT NULL,
+Latitud int NOT NULL,
+Longitud int NOT NULL,
+PRIMARY KEY (IdRestaurante),
+FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria),
+FOREIGN KEY (IdMenu) REFERENCES Menu (IdMenu),
+FOREIGN KEY (IdHorario) REFERENCES Horario (IdHorario)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Usuario
+(
+IdUsuario int NOT NULL AUTO_INCREMENT,
+Nombre varchar(50) NOT NULL,
+Apellido varchar(60) NOT NULL,
+Email varchar(100) NOT NULL,
+Contrase�a varchar(100) NOT NULL,
+Facebook_Cuenta varchar(100),
+PRIMARY KEY (IdUsuario)	
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Restaurante_Admin
+(	
+IdUsuario int NOT NULL AUTO_INCREMENT,
+IdRestaurante int NOT NULL,
+FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
+FOREIGN KEY (IdRestaurante) REFERENCES Restaurante(IdRestaurante)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Favorito
+(
+IdFavorito int NOT NULL AUTO_INCREMENT,
+Fecha date NOT NULL,
+IdRestaurante int NOT NULL,
+IdUsuario int NOT NULL,
+PRIMARY KEY (IdFavorito),
+FOREIGN KEY (IdRestaurante) REFERENCES Restaurante(IdRestaurante),
+FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)	
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Critica
+(
+IdCritica int NOT NULL AUTO_INCREMENT,
+IdRestaurante int NOT NULL,
+IdUsuario int NOT NULL,
+Plato varchar(50) NOT NULL,
+Fecha datetime NOT NULL,
+Rating int NOT NULL,
+Descripcion varchar(600) NOT NULL,
+PRIMARY KEY(IdCritica),
+FOREIGN KEY(IdRestaurante) REFERENCES Restaurante(IdRestaurante),
+FOREIGN KEY(IdUsuario) REFERENCES Usuario(IdUsuario)	
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+
